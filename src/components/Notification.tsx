@@ -1,27 +1,44 @@
-import { HStack, Text, IconButton, CloseIcon, Icon } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
+import * as Linking from 'expo-linking';
+import { CloseIcon, HStack, Icon, IconButton, Pressable, Text } from 'native-base';
+import { OSNotification } from 'react-native-onesignal';
 
 type Props = {
-  title: string;
+  data: OSNotification
   onClose: () => void;
 }
 
-export function Notification({ title, onClose }: Props) {
+type CustomOsNotification = {
+  custom: any
+  u: string
+}
+
+export function Notification({ data, onClose }: Props) {
+  function handleOnPress() {
+    const { custom }: CustomOsNotification = JSON.parse(data.rawPayload.toString())
+    const { u: uri }: CustomOsNotification = JSON.parse(custom.toString())
+
+    if (uri) {
+      Linking.openURL(uri)
+      onClose()
+    }
+  }
+
   return (
-    <HStack 
-      w="full" 
-      p={4} 
-      pt={12}
-      justifyContent="space-between" 
-      alignItems="center" 
-      bgColor="gray.200"
-      position="absolute"
-      top={0}
-    >
+   <Pressable 
+    w="full" 
+    p={4} 
+    pt={12}
+    bgColor="gray.200"
+    position="absolute"
+    top={0}
+    onPress={handleOnPress}
+  >
+     <HStack justifyContent="space-between" alignItems="center">
         <Icon as={Ionicons} name="notifications-outline" size={5} color="black" mr={2}/>
 
         <Text fontSize="md" color="black" flex={1}>
-          {title}
+          {data.title}
         </Text>
 
       <IconButton 
@@ -33,5 +50,6 @@ export function Notification({ title, onClose }: Props) {
         onPress={onClose}
       />
     </HStack>
+   </Pressable>
   );
 }

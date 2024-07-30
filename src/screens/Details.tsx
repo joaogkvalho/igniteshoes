@@ -1,17 +1,17 @@
-import { Platform } from 'react-native';
-import { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Heading, Image, ScrollView, Text, VStack, useToast, HStack } from 'native-base';
+import { HStack, Heading, Image, ScrollView, Text, VStack, useToast } from 'native-base';
+import { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 
 import { useCart } from '../hooks/useCart';
 
-import { PRODUCTS } from '../data/products';
 import { Sizes } from '../components/Sizes';
+import { PRODUCTS } from '../data/products';
 
-import { Input } from '../components/Input';
 import { Button } from '../components/Button';
-import { ScreenHeader } from '../components/ScreenHeader';
+import { Input } from '../components/Input';
 import { ProductCardProps } from '../components/ProductCard';
+import { ScreenHeader } from '../components/ScreenHeader';
 
 type RouteParamsProps = {
   productId: string;
